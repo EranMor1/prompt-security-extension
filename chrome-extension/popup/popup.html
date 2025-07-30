@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #pdf-inspector-popup {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #343541;
+      color: #ECECF1;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      z-index: 999999;
+      font-family: "Segoe UI", Arial, sans-serif;
+      text-align: center;
+      max-width: 400px;
+      animation: fadeIn 0.3s ease-out;
+    }
+    #pdf-inspector-popup h2 {
+      color: #FF6B6B;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    #pdf-inspector-popup p {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    #pdf-inspector-popup button {
+      padding: 8px 16px;
+      background: #10A37F;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    #pdf-inspector-popup button:hover {
+      background: #0e8c6c;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -10%); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+  <div id="pdf-inspector-popup">
+    <h2>⚠️ Secrets Detected</h2>
+    <p id="popup-text">Sensitive content found in your PDF.</p>
+    <button id="popup-close">Close</button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "PDF Upload Inspector",
+  "version": "1",
+  "description": "Intercepts PDF uploads and checks for secrets.",
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "storage",
+    "notifications"
+  ],
+  "host_permissions": [
+    "https://chat.openai.com/*",
+    "https://chatgpt.com/*",
+    "http://localhost:5001/*",
+    "http://127.0.0.1:5001/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/*", "https://chatgpt.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "PDF Upload Inspector"
+  },
+  "web_accessible_resources": [
+  {
+    "resources": ["popup/popup.html"],
+    "matches": ["<all_urls>"]
+  }
+],
+  "icons": {
+
+  }
+}
