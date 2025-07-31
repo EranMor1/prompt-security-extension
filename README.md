@@ -42,5 +42,11 @@ This project consists of a **Chrome extension** and a **Python backend server** 
 ## Notes
 - This project is for internal use and testing.
 - Ensure the backend server is running before using the extension.
-- This Extension suits ChatGPT only but can be used for all AI chats with proper adaption.
+
+## about the assignment
+- This Extension suits ChatGPT only but can be used for all AI chats with proper adaptions.
+- For production, I would use wxt framework or similar that would solve the next bullets.
+- For simplicity, the popup is HTML only, for production I would use React or another framework.
+- The api calls are in background.js, in production I would export them to a designated file, and would use axios with a proper build.
+- In the server, I might split handling the file and inspect it to two different services depend on the use and the different types.
 ---

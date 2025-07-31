@@ -1,5 +1,7 @@
 import pymupdf
 import requests
+import tempfile
+import os
 from ..logger import logger
 from ..config import API_URL, APP_ID
 import io
@@ -43,12 +45,35 @@ def inspect_text_with_prompt(text):
         return {"error": str(e)}
 
 
-def inspect_pdf(file):
-    pdf_bytes = file.read()
-    text = extract_text_from_pdf(io.BytesIO(pdf_bytes))
+def inspect_pdf(file_storage, filename):
+    tmp_path = None
+    try:
+        # Save uploaded file to a temp file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(filename)[1]) as tmp:
+            file_storage.save(tmp.name)
+            tmp_path = tmp.name
 
-    if not text.strip():
-        logger.info(f"No text found in PDF: {file}")
-        return {"error": "No text found in PDF"}, 400
+        # Read PDF bytes
+        with open(tmp_path, 'rb') as tmp_file:
+            pdf_bytes = tmp_file.read()
 
-    return inspect_text_with_prompt(text)
+        # Extract text
+        text = extract_text_from_pdf(io.BytesIO(pdf_bytes))
+        if not text.strip():
+            logger.info(f"No text found in PDF: {filename}")
+            return {"error": "No text found in PDF"}, 400
+
+        # Inspect text with your custom function
+        return inspect_text_with_prompt(text)
+
+    except Exception as e:
+        logger.exception("Error processing PDF")
+        return {"error": f"Inspection error: {e}"}, 500
+
+    finally:
+        # Always clean up
+        if tmp_path and os.path.exists(tmp_path):
+            try:
+                os.remove(tmp_path)
+            except OSError:
+                pass
